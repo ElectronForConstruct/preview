@@ -21,13 +21,23 @@ git:
 # install: true
 
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 GOOS=darwin go build -o ${TRAVIS_BUILD_DIR}/preview ./src/preview/main.go ; fi  
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ${TRAVIS_BUILD_DIR}/preview ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 GOOS=darwin go build -o ${TRAVIS_BUILD_DIR}/bin/preview-mac ./src/preview/main.go ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ${TRAVIS_BUILD_DIR}/preview-mac ; fi  
 
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 GOOS=linux go build -o ${TRAVIS_BUILD_DIR}/preview ./src/preview/main.go ; fi  
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ${TRAVIS_BUILD_DIR}/preview ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 GOOS=linux go build -o ${TRAVIS_BUILD_DIR}/bin/preview-linux ./src/preview/main.go ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ${TRAVIS_BUILD_DIR}/preview-linux ; fi  
 
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then go build .\\src\\preview\\main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then go build -o ${TRAVIS_BUILD_DIR}/bin/preview-windows.exe .\\src\\preview\\main.go ; fi
 
   - ls
-  - ls ${TRAVIS_BUILD_DIR}
+  - ls bin
+
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: "bin/*"
+  skip_cleanup: true
+  draft: true
+  overwrite: true
+  on:
+    tags: false
