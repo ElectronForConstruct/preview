@@ -12,21 +12,23 @@ sudo: false
 
 language: go
 
-env:
-  # - GO111MODULE=on
-
 go:
   - 1.11.x
 
 git:
   depth: 1
 
-install: true
+# install: true
 
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 set GOOS=darwin go build -o ./bin/preview ./src/preview/main.go && chmod +x ./bin/mac/preview ; fi  
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 set GOOS=linux go build -o ./bin/preview ./src/preview/main.go chmod +x ./bin/linux/preview ; fi  
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then go build -o .\bin\preview.exe .\src\preview\main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 set GOOS=darwin go build ./src/preview/main.go && chmod +x ./bin/mac/preview ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./main ; fi  
+
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 set GOOS=linux go build ./src/preview/main.go ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ./main ; fi  
+
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then go build .\\src\\preview\\main.go ; fi
+
   - ls
-  - ls src
+  - ls src/preview
   # - ls bin
