@@ -1,0 +1,31 @@
+os:
+  - linux
+  - osx
+  - windows
+
+branches: 
+  only:
+    - master
+    - develop
+
+sudo: false
+
+language: go
+
+env:
+  - GO111MODULE=on
+
+go:
+  - 1.11.x
+
+git:
+  depth: 1
+
+install: true
+
+script:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; GOARCH=amd64 set GOOS=darwin go build -o .\bin\mac\preview .\src\preview\main.go && chmod +x bin/mac/preview ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; GOARCH=amd64 set GOOS=linux go build -o .\bin\linux\preview .\src\preview\main.go chmod +x bin/linux/preview ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; GOARCH=amd64 set GOOS=windows go build -o .\bin\windows\preview.exe .\src\preview\main.go ; fi
+  - ls -R bin
+  - tree bin
