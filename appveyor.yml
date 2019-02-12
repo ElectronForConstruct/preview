@@ -25,7 +25,7 @@ deploy:
     auth_token:
         secure: gp3B0d647liCCrSzh7SBcTGAA5d+QoZtC9pTnO+fXYjhp2Zi95JcAvFbLe5kIEce
     on:
-     appveyor_repo_tag: true
+     appveyor_repo_tag: false
 
 artifacts:
   - path: ./bin/preview-windows.exe
