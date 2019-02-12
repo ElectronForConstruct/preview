@@ -8,6 +8,8 @@ branches:
     - master
     - develop
 
+sudo: false
+
 language: go
 
 go:
@@ -31,7 +33,7 @@ script:
 deploy:
   provider: releases
   api_key: $GH_TOKEN
-  file: bin/*
+  file: ${TRAVIS_BUILD_DIR}/bin/*
   skip_cleanup: true
   draft: true
   overwrite: true
