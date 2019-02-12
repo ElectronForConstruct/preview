@@ -18,7 +18,7 @@ build_script:
 
 deploy:
   - provider: GitHub
-    release: $(appveyor_repo_tag_name)
+    release: $APPVEYOR_REPO_TAG_NAME
     artifact:  preview
     draft: true
     prerelease: true
