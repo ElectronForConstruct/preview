@@ -1,7 +1,7 @@
 os:
   - linux
   - osx
-  - windows
+  # - windows
 
 branches: 
   only:
@@ -34,13 +34,11 @@ deploy:
   provider: releases
   api_key: $GH_TOKEN
   file: 
-  - ${TRAVIS_BUILD_DIR}/bin/**
-  - ${TRAVIS_BUILD_DIR}/bin/preview*
   - ${TRAVIS_BUILD_DIR}/bin/preview-linux
   - ${TRAVIS_BUILD_DIR}/bin/preview-mac
+  - ${TRAVIS_BUILD_DIR}/bin/preview-windows.exe
   skip_cleanup: true
   draft: true
   overwrite: true
   on:
-    all_branches: true
-    tags: false
+    tags: true

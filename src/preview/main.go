@@ -24,10 +24,15 @@ func main() {
 	if len(os.Args) > 1 {
 		url := os.Args[1]
 
-		fmt.Println(runningPath())
+		// fmt.Println(runningPath())
 
 		/* --- */
-		cmd := exec.Command("npm.cmd", "run", "start", "--", url)
+		npm := "npm"
+		if runtime.GOOS == "windows" {
+			npm = "npm.cmd"
+		}
+
+		cmd := exec.Command(npm, "run", "start", "--", url)
 		cmd.Dir = runningPath()
 
 		var stdBuffer bytes.Buffer
