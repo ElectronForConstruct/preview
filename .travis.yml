@@ -1,7 +1,7 @@
 os:
   - linux
   - osx
-  - windows
+  # - windows
 
 branches: 
   only:
@@ -12,19 +12,33 @@ sudo: false
 
 language: go
 
-env:
-  - GO111MODULE=on
-
 go:
   - 1.11.x
 
 git:
   depth: 1
 
-install: true
-
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 set GOOS=darwin go build -o .\bin\mac\preview .\src\preview\main.go && chmod +x bin/mac/preview ; fi  
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 set GOOS=linux go build -o .\bin\linux\preview .\src\preview\main.go chmod +x bin/linux/preview ; fi  
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then go build -o .\bin\windows\preview.exe .\src\preview\main.go ; fi
-  - ls -R ./bin 
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 GOOS=darwin go build -o ${TRAVIS_BUILD_DIR}/bin/preview-mac ./src/preview/main.go ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ${TRAVIS_BUILD_DIR}/bin/preview-mac ; fi  
+
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 GOOS=linux go build -o ${TRAVIS_BUILD_DIR}/bin/preview-linux ./src/preview/main.go ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ${TRAVIS_BUILD_DIR}/bin/preview-linux ; fi  
+
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then go build -o ${TRAVIS_BUILD_DIR}/bin/preview-windows.exe .\\src\\preview\\main.go ; fi
+
+  - ls
+  - ls bin
+
+deploy:
+  provider: releases
+  api_key: $GH_TOKEN
+  file: 
+  - ${TRAVIS_BUILD_DIR}/bin/preview-linux
+  - ${TRAVIS_BUILD_DIR}/bin/preview-mac
+  - ${TRAVIS_BUILD_DIR}/bin/preview-windows.exe
+  skip_cleanup: true
+  draft: true
+  overwrite: true
+  on:
+    tags: true
