@@ -13,7 +13,7 @@ sudo: false
 language: go
 
 env:
-  - GO111MODULE=on
+  # - GO111MODULE=on
 
 go:
   - 1.11.x
@@ -28,4 +28,5 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 set GOOS=linux go build -o ./bin/preview ./src/preview/main.go chmod +x ./bin/linux/preview ; fi  
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then go build -o .\bin\preview.exe .\src\preview\main.go ; fi
   - ls
-  - ls bin
+  - ls src
+  # - ls bin
