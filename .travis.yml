@@ -8,8 +8,6 @@ branches:
     - master
     - develop
 
-sudo: false
-
 language: go
 
 go:
@@ -17,8 +15,6 @@ go:
 
 git:
   depth: 1
-
-# install: true
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 GOOS=darwin go build -o ${TRAVIS_BUILD_DIR}/bin/preview-mac ./src/preview/main.go ; fi  
@@ -35,7 +31,7 @@ script:
 deploy:
   provider: releases
   api_key: $GH_TOKEN
-  file: "bin/*"
+  file: bin/*
   skip_cleanup: true
   draft: true
   overwrite: true
