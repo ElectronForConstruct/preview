@@ -18,14 +18,14 @@ build_script:
 
 deploy:
   - provider: GitHub
-    release: $env:APPVEYOR_REPO_TAG_NAME
+    release: $(appveyor_repo_tag_name)
     artifact:  preview
     draft: true
     prerelease: true
     auth_token:
         secure: gp3B0d647liCCrSzh7SBcTGAA5d+QoZtC9pTnO+fXYjhp2Zi95JcAvFbLe5kIEce
     on:
-     appveyor_repo_tag: false
+     appveyor_repo_tag: true
 
 artifacts:
   - path: ./bin/preview-windows.exe
