@@ -13,5 +13,20 @@ install:
   - go version
 
 build_script:
-  - ls
   - go build -o ./bin/preview-windows.exe .\\src\\preview\\main.go
+  - ls
+
+deploy:
+  - provider: GitHub
+    release: $(appveyor_repo_tag_name)
+    artifact:  preview
+    draft: true
+    prerelease: true
+    auth_token:
+        secure: $env:GH_TOKEN
+    on:
+     appveyor_repo_tag: true
+
+artifacts:
+  - path: ./bin/preview-windows.exe
+    name: preview
