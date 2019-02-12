@@ -21,10 +21,10 @@ git:
 # install: true
 
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 set GOOS=darwin go build ./src/preview/main.go && chmod +x ./bin/mac/preview ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 set GOOS=darwin go build -o ${TRAVIS_BUILD_DIR}/preview ./src/preview/main.go && chmod +x ./bin/mac/preview ; fi  
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./main ; fi  
 
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 set GOOS=linux go build ./src/preview/main.go ; fi  
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then GOARCH=amd64 set GOOS=linux go build -o ${TRAVIS_BUILD_DIR}/preview ./src/preview/main.go ; fi  
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x ./main ; fi  
 
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then go build .\\src\\preview\\main.go ; fi
