@@ -5,11 +5,11 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"runtime"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 func runningPath() string {
@@ -25,15 +25,7 @@ func main() {
 	if len(os.Args) > 1 {
 		url := os.Args[1]
 
-		// fmt.Println(runningPath())
-
-		/* --- */
-		npm := "npm"
-		if runtime.GOOS == "windows" {
-			npm = "npm.cmd"
-		}
-
-		cmd := exec.Command(npm, "run", "start", "--", url)
+		cmd := exec.Command("efc", "preview", url)
 		cmd.Dir = runningPath()
 
 		var stdBuffer bytes.Buffer
@@ -44,8 +36,12 @@ func main() {
 
 		// Execute the command
 		if err := cmd.Run(); err != nil {
-			// log.Panic(err)
-			log.Println(err)
+			if strings.Contains(err.Error(), "not found") {
+				log.Println("Node.js and @efc/cli module must be installed before using this binary!")
+			} else {
+				log.Println(err)
+			}
+			os.Exit(0)
 		}
 
 		log.Println(stdBuffer.String())
@@ -53,7 +49,8 @@ func main() {
 
 	} else {
 		fmt.Print("You must pass an url as first argument!")
+		os.Exit(0)
 	}
-	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	_, _ = bufio.NewReader(os.Stdin).ReadBytes('\n')
 
 }
