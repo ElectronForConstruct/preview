@@ -20,6 +20,8 @@ git:
   depth: 1
 
 script:
+  - go get golang.org/x/sys/windows/registry
+
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then GOARCH=amd64 GOOS=darwin go build -o ${TRAVIS_BUILD_DIR}/bin/preview-mac ./src/preview/main.go ; fi  
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ${TRAVIS_BUILD_DIR}/bin/preview-mac ; fi  
 

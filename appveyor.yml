@@ -13,6 +13,7 @@ install:
   - go version
 
 build_script:
+  - go get golang.org/x/sys/windows/registry
   - go build -o ./bin/preview-windows.exe .\\src\\preview\\main.go
   - ls
 
